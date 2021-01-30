@@ -2,6 +2,8 @@ import discord
 import logging
 import random
 import os
+from gamestate import GameState
+import text
 #structure copied from https://discordpy.readthedocs.io/en/latest/quickstart.html
 
 #this block of code is for debugging
@@ -19,6 +21,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
 
+game = GameState()
 
 @bot.event
 async def on_ready():
@@ -26,9 +29,20 @@ async def on_ready():
 
 
 @bot.command(name='join')
-async def _test(ctx):
-    #response = ' has joined!' #str(ctx.author) + " has joined!"
-    await ctx.send(str(ctx.message.author.name))
+async def join(ctx):
+    game.join(ctx.message.author.name)
+    await ctx.send(str(ctx.message.author.name) + ' has joined!')
+
+@bot.command(name='players')
+async def check_players(ctx):
+    await ctx.send(game.check_players())
+
+@bot.command(name='begin')
+async def start_game(ctx):
+    await ctx.send(text.narrative())
+    await ctx.send(text.points)
+    #await ctx.send(text.rules)
+    #await ctx.send(text.help)
 
 @bot.event
 async def on_error(event, *args, **kwargs):
