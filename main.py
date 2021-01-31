@@ -41,6 +41,7 @@ async def check_players(ctx):
 async def start_game(ctx):
     await ctx.send(text.narrative())
     await ctx.send(text.points)
+    game.game_start()
     #await ctx.send(text.rules)
     #await ctx.send(text.help)
 
