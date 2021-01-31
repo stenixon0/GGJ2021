@@ -9,7 +9,7 @@ Instructions can be found at https://globalgamejam.org/2021/games/soulmates-6
 An even number of players is required (4 is the minimum but more than 6 is recommended)
 
 
-#Installation
+# Installation
 Download main.py, gamestate.py, and text.py into the same folder
 
 Create a new discord bot and invite to the desired server
@@ -22,7 +22,7 @@ DISCORD_GUILD=*Your_Server*
 
 save the file as .env
 
-#Running the Program
+# Running the Program
 
 In a command terminal of your choice, run main.py
 
