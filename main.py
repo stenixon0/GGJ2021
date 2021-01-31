@@ -41,7 +41,6 @@ async def check_players(ctx):
 @bot.command(name='begin')
 async def start_game(ctx):
     await ctx.send(text.narrative())
-    await ctx.send(text.points)
     game.game_start()
     u_ids = game.get_user_ids()
     u = game.get_users()
@@ -51,11 +50,11 @@ async def start_game(ctx):
     for user in u:
         message = 'You are a '
         #skips a theme, so user one and two are assigned to t[0], three and four are assigned to t[2]
-        user_even = u.index(user) % 2 == 0
-        message += t[0] if user_even else t[1]
+        user_index = u.index(user)
+        message += t[user_index//2]
         message += '\n' + h[user]
         message += ' is your hellmate, and they are a '
-        message += t[1] if user_even else t[0]
+        message += t[0] if user_index >= len(u) - 2 else t[user_index // 2 + 1]
         await u_ids[user].send(message)
     #await ctx.send(text.rules)
     #await ctx.send(text.help)

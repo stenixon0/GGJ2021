@@ -30,7 +30,7 @@ def themes():
         'Professional Burglar',
         'Soccer Mom',
         'Soldiers',
-        'Professional Wrestlers',
+        'Professional Wrestler',
         'Spy',
         'Politician',
         'SCUBA Diver',

@@ -9,8 +9,8 @@ class GameState:
         self.themes = []
         self.soulmates = {}
         self.hellmates = {}
-        self.points = {}
-        self.has_guessed = {}
+        # self.points = {}
+        # self.has_guessed = {}
     
     def join(self, user):
         if user not in self.users:
@@ -19,64 +19,61 @@ class GameState:
 
     def game_start(self):
         self.themes = text.themes()
-        self.reset_points()
+        # self.reset_points()
         self.round_start()
     
     def round_start(self):
         self.pop_dictionaries()
-        self.reset_has_guessed()
+        # self.reset_has_guessed()
     
-    def reset_has_guessed(self):
-        self.has_guessed = {}
-        for user in self.users:
-            self.has_guessed[user] = False
+    # def reset_has_guessed(self):
+    #     self.has_guessed = {}
+    #     for user in self.users:
+    #         self.has_guessed[user] = False
     
-    def reset_points(self):
-        self.points = {}
-        for user in self.users:
-            self.points[user] = 0
+    # def reset_points(self):
+    #     self.points = {}
+    #     for user in self.users:
+    #         self.points[user] = 0
 
     def pop_dictionaries(self):
         self.users = list(self.users)
         random.shuffle(self.users)
         self.themes = list(self.themes)
         random.shuffle(self.themes)
-        self.manual_pop()
-        # x = 0
+        # self.manual_pop()
+        x = 0
         # populates soulmates
         # may cause performance issues
-        # while x < 4:#change to len
-        #     u = self.users
-        #     print(u[x] + '\n')
-        #     print(u[x+1] + '\n')
-        #     print(self.themes[x])
-        #     self.soulmates[self.themes[x]] = (u[x], u[x+1])
-        #     # this is the best computation I could come up with (it's buggy)
-        #     # unintended consequence is that the soulmates have hellmates of the same theme
-        #     if (x == len(u) - 2):
-        #         self.hellmates[u[x]] = u[x-2] (should be x-1?)
-        #         self.hellmates[u[x+1]] = u[0]
-        #     else:
-        #         self.hellmates[u[x]] = u[x+3]
-        #         self.hellmates[u[x+1]] = u[x+2]
-        #     x = x + 2
-        # self.print_dicts()
+        while x < len(self.users):#change to len
+            u = self.users
+            # this is the best computation I could come up with (it's buggy)
+            # unintended consequence is that the soulmates have hellmates of the same theme
+            # self.soulmates[u[x]] = u[x+1]
+            if (x == len(u) - 2):
+                self.hellmates[u[x]] = u[0] 
+                self.hellmates[u[x+1]] = u[1]
+            else:
+                self.hellmates[u[x]] = u[x+3]
+                self.hellmates[u[x+1]] = u[x+2]
+            x = x + 2
     
-    def manual_pop(self):
-        self.soulmates.clear()
-        self.hellmates.clear()
-        s = self.soulmates
-        u = self.users
-        h = self.hellmates
-        #soulmates
-        s[u[0]] = u[2]
-        s[u[1]] = u[3]
-        #hellmates
-        h[u[0]] = u[1]
-        h[u[1]] = u[2]
-        h[u[2]] = u[3] #x-2 
-        h[u[3]] = u[0] #x-2
-        # self.print_dicts()
+    #used for testing 4 accounts
+    # def manual_pop(self):
+    #     self.soulmates.clear()
+    #     self.hellmates.clear()
+    #     s = self.soulmates
+    #     u = self.users
+    #     h = self.hellmates
+    #     #soulmates
+    #     s[u[0]] = u[2]
+    #     s[u[1]] = u[3]
+    #     #hellmates
+    #     h[u[0]] = u[1]
+    #     h[u[1]] = u[2]
+    #     h[u[2]] = u[3] #x-2 
+    #     h[u[3]] = u[0] #x-2
+    #     # self.print_dicts()
 
      
     def check_players(self):
@@ -91,12 +88,6 @@ class GameState:
 	        result += str(key) + ', ' + str(value) + '\n'
         result += "\nHell Mates: \n"
         for key, value in self.hellmates.items():
-	        result += str(key) + ', ' + str(value) + '\n'
-        result += "\nPoints: \n"
-        for key, value in self.points.items():
-	        result += str(key) + ', ' + str(value) + '\n'
-        result += "\nhas_guessed: \n"
-        for key, value in self.has_guessed.items():
 	        result += str(key) + ', ' + str(value) + '\n'
         result += "\nuser_ids: \n"
         for key, value in self.user_ids.items():
@@ -114,12 +105,6 @@ class GameState:
     
     def get_hellmates(self):
         return self.hellmates
-
-    def get_points(self):
-        return self.points
-
-    def get_has_guessed(self):
-        return self.has_guessed
     
     def get_user_ids(self):
         return self.user_ids
